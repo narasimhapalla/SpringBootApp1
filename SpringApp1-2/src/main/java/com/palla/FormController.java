@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,5 +59,10 @@ public class FormController {
 	public Optional<Customers> getCustomersById(@PathVariable("cid")int cid) {
 		
 		return rep.findById(cid);
+	}
+	@PostMapping("/customers")
+	public Customers postCustomer(@RequestBody Customers customer) {
+		rep.save(customer);
+		return customer;
 	}
 }
