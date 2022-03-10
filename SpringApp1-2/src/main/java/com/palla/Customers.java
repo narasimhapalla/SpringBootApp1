@@ -1,7 +1,11 @@
 package com.palla;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Customers {
-	
+	@Id
 	private int cid;
 	private String cname;
 	private String cemail;
