@@ -6,6 +6,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,12 +28,15 @@ public class UserController {
 	private UserDaoService service;
 	
 	@RequestMapping(method=RequestMethod.GET, path="/users/{id}")
-	public User getUser(@PathVariable Integer id) {
+	public EntityModel<User> getUser(@PathVariable Integer id) {
 		User user = service.getUser(id);
 		if(user == null ) {
 			throw new UserNotFoundException(" id : "+id);
 		}
-		return user;
+		EntityModel<User> model = EntityModel.of(user);
+		WebMvcLinkBuilder linktoUsers = linkTo(methodOn(this.getClass()).getUsers());
+		model.add(linktoUsers.withRel("all-users"));
+		return model;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, path="/usersAll")
