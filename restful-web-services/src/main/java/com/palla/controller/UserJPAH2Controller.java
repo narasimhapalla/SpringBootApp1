@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.palla.data.Post;
 import com.palla.data.User;
 import com.palla.exceptions.UserNotFoundException;
+import com.palla.servcies.PostJPARepository;
 import com.palla.servcies.UserDaoService;
 import com.palla.servcies.UserJPARepository;
 
@@ -30,6 +31,9 @@ public class UserJPAH2Controller {
 	
 	@Autowired
 	private UserJPARepository service;
+	
+	@Autowired
+	private PostJPARepository postService;
 	
 	@RequestMapping(method=RequestMethod.GET, path="/jpa/users/{id}")
 	public EntityModel<User> getUser(@PathVariable Integer id) {
@@ -69,5 +73,21 @@ public class UserJPAH2Controller {
 
 		List<Post> posts = user.getPosts();
 		return posts;
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, path="/jpa/users/{id}/posts", consumes = {"text/plain", "application/json"})
+	public ResponseEntity<Object> savePost(@Valid @RequestBody Post post, @PathVariable Integer id) {
+		Optional<User> userO = service.findById(id);
+		if(!userO.isPresent() ) {
+			throw new UserNotFoundException(" id : "+id);
+		}
+		User user = userO.get();
+		post.setUser(user);
+		postService.save(post);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(post.getId())
+				.toUri();
+		return ResponseEntity.created(location).build();
 	}
 }
