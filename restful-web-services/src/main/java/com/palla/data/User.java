@@ -1,21 +1,40 @@
 package com.palla.data;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+@Entity
 public class User {
 
-	
+	@Id
+	@GeneratedValue
 	private Integer id;
 	@Size(min = 2, message = "Name should have at least two characters.")
 	private String name;
 	@Past
 	private Date dob;
 	
+	@OneToMany(mappedBy = "user")
+	private List<Post> posts;
 	
 	
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+
 	public User() {
 		super();
 	}

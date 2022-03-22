@@ -19,4 +19,7 @@ Dynamic filtering -> Can be done using MappingJacksonValue by setting filters to
 Version -> 
 	by creating different endpoint
 	content negotiation approach 
-		-> Using params and value
+		-> Using request params and value
+		-> Using request header and value
+		-> produces via headers (MIME type version)
+		
