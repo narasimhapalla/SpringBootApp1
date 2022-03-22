@@ -28,4 +28,14 @@ Richardson maturity model (REST)
 	level 1 -> exposing with proper URI. http://server/accounts/10
 	level 2 -> level 1+ proper use of http methods
 	level 3 -> level 2 + HATEOAS. Next possible actions
+
+Restful service best practices
+	-> Understand the user(consumer First)
+	-> Make best use 0f Http methods
+	-> Proper response status even in case of failures
+	-> No secure info in URI
+	-> think about nouns (Like account not the user)
+	-> consistent approach in exceptions
+	
+	
 		
