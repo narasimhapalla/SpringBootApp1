@@ -1,4 +1,4 @@
-HATEOAS -> Spring HATEOAS is used to create dynamic URI links using custom objects 
+HATEOAS -> Spring HATEOAS is used to create dynamic URI links using custom objects (Hyper media as the engine of application state)
 
 Validation -> Validation package is used to validate user input
 
@@ -22,4 +22,10 @@ Version ->
 		-> Using request params and value
 		-> Using request header and value
 		-> produces via headers (MIME type version)
+		
+Richardson maturity model (REST)
+	level 0 -> exposing SOAP service in restful style. Like an action in the form for url http://server/getPosts
+	level 1 -> exposing with proper URI. http://server/accounts/10
+	level 2 -> level 1+ proper use of http methods
+	level 3 -> level 2 + HATEOAS. Next possible actions
 		
