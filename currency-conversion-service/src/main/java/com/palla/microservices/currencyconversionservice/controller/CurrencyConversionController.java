@@ -1,10 +1,14 @@
 package com.palla.microservices.currencyconversionservice.controller;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.palla.microservices.currencyconversionservice.data.CurrencyConversion;
 
@@ -16,6 +20,17 @@ public class CurrencyConversionController {
 			@PathVariable String from,
 			@PathVariable String to,
 			@PathVariable BigDecimal quantity) {
-		return new CurrencyConversion(1000L,from,to,quantity,BigDecimal.ONE, BigDecimal.ONE,"8100");
+		
+		Map<String, String> uriVariables = new HashMap<String,String>();
+		uriVariables.put("from", from);
+		uriVariables.put("to", to);
+		//Rest template to trigger to rest api calls
+		ResponseEntity<CurrencyConversion> resEntity = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", 
+				CurrencyConversion.class,
+				uriVariables);
+		CurrencyConversion cVersion = resEntity.getBody();
+		return new CurrencyConversion(cVersion.getId(),
+				cVersion.getFrom(),cVersion.getTo(),quantity,
+				cVersion.getConversionMultiple(), quantity.multiply(cVersion.getConversionMultiple()) ,cVersion.getEnvironment());
 	}
 }
