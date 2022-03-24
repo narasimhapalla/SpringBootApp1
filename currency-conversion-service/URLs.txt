@@ -1,1 +1,3 @@
 http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
+
+Rest Feign client uses to reduce lot of boilerplate code for creating rest template
